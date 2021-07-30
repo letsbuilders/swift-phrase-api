@@ -91,7 +91,7 @@ internal extension PhraseClient {
         return
     }
 
-    func encodeRequest<RequestData: Encodable>(request: HTTPClient.Request, data: RequestData) throws -> HTTPClient.Request {
+    private func encodeRequest<RequestData: Encodable>(request: HTTPClient.Request, data: RequestData) throws -> HTTPClient.Request {
         var request = request
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase
