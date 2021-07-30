@@ -4,7 +4,7 @@
 
 import Foundation
 
-public struct TranslationRequest: Codable {
+public struct TranslationRequest: Encodable {
     let branch: String?
     let localeId: String?
     let keyId: String?

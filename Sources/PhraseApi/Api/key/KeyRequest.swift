@@ -4,7 +4,7 @@
 
 import Foundation
 
-public struct KeyRequest: Codable {
+public struct KeyRequest: Encodable {
     let branch: String?
     let name: String
     let description: String?

@@ -4,7 +4,7 @@
 
 import Foundation
 
-public struct TagRequest: Codable {
+public struct TagRequest: Encodable {
     let branch: String?
     let name: String
 }
