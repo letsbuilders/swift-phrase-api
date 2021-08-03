@@ -175,7 +175,7 @@ internal extension PhraseClient {
             guard let url = urlComponents.url else { throw ClientError.wrongUrl }
             logger.debug("PUT \(url.absoluteString)")
 
-            let request = try HTTPClient.Request(url: url, method: .PUT)
+            let request = try HTTPClient.Request(url: url, method: .PATCH)
             let futureResponse = execute(try encodeRequest(request: request, data: requestData))
 
             return futureResponse.flatMapThrowing { response in

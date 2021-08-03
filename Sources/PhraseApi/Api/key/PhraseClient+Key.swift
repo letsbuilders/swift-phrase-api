@@ -50,7 +50,7 @@ extension PhraseClient.ProjectScope {
     }
 
     func updateKey(id: String, changes keyData: KeyRequest) -> EventLoopFuture<KeyResponse> {
-        updateOne(pathComponent: "keys",identyfier: id, requestData: keyData, responseType: KeyResponse.self)
+        updateOne(pathComponent: "keys",identifier: id, requestData: keyData, responseType: KeyResponse.self)
     }
 
     func updateKey(id: String, name: String, description: String? = nil, branch: String? = nil, tags: [String]? = nil, dataType: PhraseDataType = .string, maxCharactersAllowed: Int? = nil) -> EventLoopFuture<KeyResponse> {

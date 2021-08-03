@@ -6,8 +6,8 @@ import Foundation
 
 public struct TranslationRequest: Encodable {
     let branch: String?
-    let localeId: String?
-    let keyId: String?
+    var localeId: String?
+    var keyId: String?
     let content: String
     let pluralSuffix: PhrasePluralSuffix?
     let unverified: Bool?

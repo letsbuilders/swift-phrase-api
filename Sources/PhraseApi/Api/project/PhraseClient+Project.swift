@@ -39,8 +39,8 @@ public extension PhraseClient {
             client.createOne(pathComponents: projectPathComponents + [pathComponent], requestData: requestData, responseType: ResponseType.self, queryItems: queryItems)
         }
 
-        internal func updateOne<RequestType: Encodable, ResponseType: Decodable>(pathComponent: String, identyfier: String, requestData: RequestType, responseType: ResponseType.Type, queryItems: [URLQueryItem]? = nil) -> EventLoopFuture<ResponseType> {
-            client.updateOne(pathComponents: projectPathComponents + [pathComponent, identyfier], requestData: requestData, responseType: ResponseType.self, queryItems: queryItems)
+        internal func updateOne<RequestType: Encodable, ResponseType: Decodable>(pathComponent: String, identifier: String, requestData: RequestType, responseType: ResponseType.Type, queryItems: [URLQueryItem]? = nil) -> EventLoopFuture<ResponseType> {
+            client.updateOne(pathComponents: projectPathComponents + [pathComponent, identifier], requestData: requestData, responseType: ResponseType.self, queryItems: queryItems)
         }
 
         internal func deleteOne(pathComponent: String, identifier: String, queryItems: [URLQueryItem]? = nil) -> EventLoopFuture<Void> {

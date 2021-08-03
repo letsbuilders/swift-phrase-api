@@ -16,7 +16,7 @@ extension PhraseClient.ProjectScope {
             queryItems.append(URLQueryItem(name: "branch", value: branch))
         }
 
-        return getMany(pathComponents: pathComponents, responseType: TranslationResponse.self, queryItems: [URLQueryItem(name: "sort_by", value: "name")])
+        return getMany(pathComponents: pathComponents, responseType: TranslationResponse.self, queryItems: queryItems)
     }
 
     func translations(keyId: String, branch: String? = nil) -> EventLoopFuture<[TranslationResponse]> {
@@ -40,8 +40,21 @@ extension PhraseClient.ProjectScope {
         return getOne(pathComponent: "translations", identifier: id, responseType: TranslationResponse.self, queryItems: queryItems)
     }
 
-    func createTranslation(localeId: String, keyid: String, content: String, branch: String?, pluralSuffix: PhrasePluralSuffix? = nil) -> EventLoopFuture<TranslationResponse> {
-        let requestData = TranslationRequest(branch: branch, localeId: localeId, keyId: keyid, content: content, pluralSuffix: pluralSuffix, unverified: nil, excluded: nil, autotranslate: true)
-        return createOne(pathComponent: "translations", requestData: requestData, responseType: TranslationResponse.self)
+    func createTranslation(_ translation: TranslationRequest) -> EventLoopFuture<TranslationResponse> {
+        createOne(pathComponent: "translations", requestData: translation, responseType: TranslationResponse.self)
+    }
+
+    func createTranslation(localeId: String, keyid: String, content: String, branch: String?, pluralSuffix: PhrasePluralSuffix? = nil, autotranslate: Bool? = true) -> EventLoopFuture<TranslationResponse> {
+        let translation = TranslationRequest(branch: branch, localeId: localeId, keyId: keyid, content: content, pluralSuffix: pluralSuffix, unverified: true, excluded: nil, autotranslate: autotranslate)
+        return createTranslation(translation)
+    }
+
+    func updateTranslation(id: String, changes translationRequest: TranslationRequest) -> EventLoopFuture<TranslationResponse> {
+        var data = translationRequest
+        // Don't send this keys
+        data.keyId = nil
+        data.localeId = nil
+
+        return updateOne(pathComponent: "translations", identifier: id, requestData: data, responseType: TranslationResponse.self)
     }
 }
