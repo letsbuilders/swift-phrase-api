@@ -8,12 +8,20 @@ import NIO
 // API
 public extension PhraseClient {
     struct ProjectScope {
+        /// Project data loaded from API
         let projectData: ProjectResponse
-        internal let client: PhraseClient
 
+        /// Id of the project
         var projectId: String {
             projectData.id
         }
+
+        internal init(projectData: ProjectResponse, client: PhraseClient) {
+            self.projectData = projectData
+            self.client = client
+        }
+
+        internal let client: PhraseClient
 
         internal var baseUrl: URL {
             client.baseUrl.appendingPathComponent("projects").appendingPathComponent(projectId)
@@ -48,6 +56,10 @@ public extension PhraseClient {
         }
     }
 
+    /// Get project data and access to project scoped APIs
+    ///
+    /// - Parameter projectId: Project id - you can obtain it using web UI
+    /// - Returns: Future project scope
     func project(id projectId: String) -> EventLoopFuture<ProjectScope> {
         getOne(pathComponents: ["projects", projectId], responseType: ProjectResponse.self).map { projectData in
             ProjectScope(projectData: projectData, client: self)

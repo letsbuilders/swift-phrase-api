@@ -8,17 +8,40 @@ import Logging
 import NIO
 import NIOHTTP1
 
-public enum ClientError: Error {
-    case requestFailed(status: HTTPResponseStatus)
-    case emptyResponse
-    case wrongUrl
+/// Errors thrown by Phrase client
+public enum PhraseError: Error {
+    case requestFailed(status: HTTPResponseStatus) /// Request was sent, but response status doesn't match expected one
+    case emptyResponse /// Empty response received, but some data was expected
+    case wrongUrl /// Failed creating valid URL for api request
 }
 
+/// Wrapper for Phrase API v2.0.0
+///
+/// This library use [Swift NIO http async client](https://github.com/swift-server/async-http-client), therefore each request will return `EventLoopFeature`.
+/// For more information abut handling feature please go to [Swift NIO documentation](https://github.com/apple/swift-nio)
+///
+/// - SeeAlso:
+/// [Phrase API](https://developers.phrase.com/api/)
+/// [Swift NIO documentation](https://github.com/apple/swift-nio)
+/// [Swift NIO http async client documentation](https://github.com/swift-server/async-http-client),
 public final class PhraseClient {
+    /// Base URL for Phrase API.
+    ///
+    /// Changing it to other URL will make all request go to new endpoint
     static var baseUrl = "https://api.phrase.com/v2/"
 
+    /// Logger instance
+    ///
+    /// - SeeMore:
+    /// [Swift Logging](https://github.com/apple/swift-log)
     var logger: Logger
+
+    /// User agent used for all request.
+    ///
+    /// Please change ia according to [Phrase guidelines](https://developers.phrase.com/api/#overview--identification-via-user-agent)
+    /// *It might be a good idea to include some sort of contact information as well, so that we can get in touch if necessary (e.g. to warn you about Rate-Limiting or badly formed requests).*
     var userAgent = "Swift Phrase API wrapper"
+
     private let httpClient: HTTPClient
     private let accessToken: String
     private var deinitHttpClient: Bool = false
@@ -27,6 +50,14 @@ public final class PhraseClient {
         URL(string: PhraseClient.baseUrl)!
     }
 
+    /// Initialise client
+    ///
+    /// - Parameters:
+    ///   - accessToken: API Oauth token - check
+    ///   - httpClient: Instance of `HTTPClient` (Optional). If not passed new instance will be initialised with default settings.
+    ///   - logger: Instance of `Logger` (Optional). If not passed there will be new instance initialised with label `com.phrase.api`
+    ///
+    /// - Important: If you pass your own instance of `HTTPClient`, you need to handle closing it by yourself.
     public init(accessToken: String, httpClient: HTTPClient? = nil, logger: Logger = Logger(label: "com.phrase.api")) {
         self.accessToken = accessToken
         self.logger = logger
@@ -69,9 +100,9 @@ internal extension PhraseClient {
             if var body = response.body {
                 logger.debug("\(body.readString(length: body.capacity, encoding: String.Encoding.utf8) ?? "Can't parse the body to sting")")
             }
-            throw ClientError.requestFailed(status: response.status)
+            throw PhraseError.requestFailed(status: response.status)
         }
-        guard var body = response.body else { throw ClientError.emptyResponse }
+        guard var body = response.body else { throw PhraseError.emptyResponse }
 
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -86,7 +117,7 @@ internal extension PhraseClient {
     }
 
     private func parseEmptyResponse(response: HTTPClient.Response) throws -> Void {
-        guard response.status == .noContent || response.status == .created else { throw ClientError.requestFailed(status: response.status) }
+        guard response.status == .noContent || response.status == .created else { throw PhraseError.requestFailed(status: response.status) }
 
         return
     }
@@ -109,10 +140,10 @@ internal extension PhraseClient {
             var initialUrl = baseUrl
             pathComponents.forEach { initialUrl.appendPathComponent($0) }
 
-            guard var urlComponents = URLComponents(url: initialUrl, resolvingAgainstBaseURL: true) else { throw ClientError.wrongUrl }
+            guard var urlComponents = URLComponents(url: initialUrl, resolvingAgainstBaseURL: true) else { throw PhraseError.wrongUrl }
             urlComponents.queryItems = [ URLQueryItem(name: "per_page", value: "100") ] + queryItems
 
-            guard let url = urlComponents.url else { throw ClientError.wrongUrl }
+            guard let url = urlComponents.url else { throw PhraseError.wrongUrl }
             logger.debug("GET \(url.absoluteString)")
             let futureResponse = execute(try HTTPClient.Request(url: url, method: .GET))
 
@@ -129,10 +160,10 @@ internal extension PhraseClient {
         do {
             var initialUrl = baseUrl
             pathComponents.forEach { initialUrl.appendPathComponent($0) }
-            guard var urlComponents = URLComponents(url: initialUrl, resolvingAgainstBaseURL: true) else { throw ClientError.wrongUrl }
+            guard var urlComponents = URLComponents(url: initialUrl, resolvingAgainstBaseURL: true) else { throw PhraseError.wrongUrl }
             urlComponents.queryItems = queryItems
 
-            guard let url = urlComponents.url else { throw ClientError.wrongUrl }
+            guard let url = urlComponents.url else { throw PhraseError.wrongUrl }
             logger.debug("GET \(url.absoluteString)")
             let futureResponse = execute(try HTTPClient.Request(url: url, method: .GET))
 
@@ -149,9 +180,9 @@ internal extension PhraseClient {
         do {
             var initialUrl = baseUrl
             pathComponents.forEach { initialUrl.appendPathComponent($0) }
-            guard var urlComponents = URLComponents(url: initialUrl, resolvingAgainstBaseURL: true) else { throw ClientError.wrongUrl }
+            guard var urlComponents = URLComponents(url: initialUrl, resolvingAgainstBaseURL: true) else { throw PhraseError.wrongUrl }
             urlComponents.queryItems = queryItems
-            guard let url = urlComponents.url else { throw ClientError.wrongUrl }
+            guard let url = urlComponents.url else { throw PhraseError.wrongUrl }
             logger.debug("POST \(url.absoluteString)")
 
             let request = try HTTPClient.Request(url: url, method: .POST)
@@ -170,9 +201,9 @@ internal extension PhraseClient {
         do {
             var initialUrl = baseUrl
             pathComponents.forEach { initialUrl.appendPathComponent($0) }
-            guard var urlComponents = URLComponents(url: initialUrl, resolvingAgainstBaseURL: true) else { throw ClientError.wrongUrl }
+            guard var urlComponents = URLComponents(url: initialUrl, resolvingAgainstBaseURL: true) else { throw PhraseError.wrongUrl }
             urlComponents.queryItems = queryItems
-            guard let url = urlComponents.url else { throw ClientError.wrongUrl }
+            guard let url = urlComponents.url else { throw PhraseError.wrongUrl }
             logger.debug("PUT \(url.absoluteString)")
 
             let request = try HTTPClient.Request(url: url, method: .PATCH)
@@ -191,9 +222,9 @@ internal extension PhraseClient {
         do {
             var initialUrl = baseUrl
             pathComponents.forEach { initialUrl.appendPathComponent($0) }
-            guard var urlComponents = URLComponents(url: initialUrl, resolvingAgainstBaseURL: true) else { throw ClientError.wrongUrl }
+            guard var urlComponents = URLComponents(url: initialUrl, resolvingAgainstBaseURL: true) else { throw PhraseError.wrongUrl }
             urlComponents.queryItems = queryItems
-            guard let url = urlComponents.url else { throw ClientError.wrongUrl }
+            guard let url = urlComponents.url else { throw PhraseError.wrongUrl }
             logger.debug("PUT \(url.absoluteString)")
 
             let request = try HTTPClient.Request(url: url, method: .DELETE)
