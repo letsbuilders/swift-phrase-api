@@ -34,13 +34,13 @@ extension PhraseClient.ProjectScope {
     /// List all translations for the given locale
     ///
     /// - Parameters:
-    ///   - localeId: Locale identifier
+    ///   - localeName: Locale name
     ///   - branch: Specify the branch to use (optional)
     /// - Returns: Future array of translations
     ///
     /// - SeeAlso: `TranslationResponse`
-    func translations(localeId: String, branch: String? = nil) -> EventLoopFuture<[TranslationResponse]> {
-        translations(pathComponents: ["locales", localeId, "translations"], branch: branch)
+    func translations(localeName: String, branch: String? = nil) -> EventLoopFuture<[TranslationResponse]> {
+        translations(pathComponents: ["locales", localeName, "translations"], branch: branch)
     }
 
     /// List all translations in a project
