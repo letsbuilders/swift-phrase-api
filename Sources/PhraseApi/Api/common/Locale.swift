@@ -5,7 +5,7 @@
 import Foundation
 
 public struct Locale: Decodable {
-    let id: String
-    let name: String?
-    let code: String?
+    public let id: String
+    public let name: String?
+    public let code: String?
 }

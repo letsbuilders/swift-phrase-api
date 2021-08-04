@@ -5,23 +5,23 @@
 import Foundation
 
 public struct KeyResponse: Decodable {
-    let id: String
-    let branch: String?
-    let name: String
-    let nameHash: String
-    let description: String?
-    let plural: Bool?
-    let namePlural: String?
-    let dataType: PhraseDataType?
-    let createdAt: Date
-    let updatedAt: Date?
-    let tags: [String]?
-    let commentsCount: Int?
-    let maxCharactersAllowed: Int?
-    let screenshotUrl: String?
-    let unformatted: Bool?
-    let xmlSpacePreserve: Bool?
-    let originalFile: String?
-    let formatValueType: String?
-    let creator: PhraseUser?
+    public let id: String
+    public let branch: String?
+    public let name: String
+    public let nameHash: String
+    public let description: String?
+    public let plural: Bool?
+    public let namePlural: String?
+    public let dataType: PhraseDataType?
+    public let createdAt: Date
+    public let updatedAt: Date?
+    public let tags: [String]?
+    public let commentsCount: Int?
+    public let maxCharactersAllowed: Int?
+    public let screenshotUrl: String?
+    public let unformatted: Bool?
+    public let xmlSpacePreserve: Bool?
+    public let originalFile: String?
+    public let formatValueType: String?
+    public let creator: PhraseUser?
 }

@@ -6,20 +6,20 @@ import Foundation
 
 public struct TagResponse: Decodable {
     public struct Statistic: Decodable {
-        let keysTotalCount: Int
-        let translationsCompletedCount: Int
-        let translationsUnverifiedCount: Int
-        let keysUntranslatedCount: Int
+        public let keysTotalCount: Int
+        public let translationsCompletedCount: Int
+        public let translationsUnverifiedCount: Int
+        public let keysUntranslatedCount: Int
     }
 
     public struct LocaleStatistic: Decodable {
-        let locale: Locale
-        let statistics: Statistic?
+        public let locale: Locale
+        public let statistics: Statistic?
     }
 
-    let name: String
-    let keyCount: Int?
-    let createdAt: Date?
-    let updatedAt: Date?
-    let statistics: [LocaleStatistic]?
+    public let name: String
+    public let keyCount: Int?
+    public let createdAt: Date?
+    public let updatedAt: Date?
+    public let statistics: [LocaleStatistic]?
 }

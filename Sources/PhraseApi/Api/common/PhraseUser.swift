@@ -5,7 +5,7 @@
 import Foundation
 
 public struct PhraseUser: Decodable {
-    let id: String
-    let username: String?
-    let name: String?
+    public let id: String
+    public let username: String?
+    public let name: String?
 }

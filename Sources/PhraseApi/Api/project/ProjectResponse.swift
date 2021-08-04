@@ -4,15 +4,15 @@
 
 import Foundation
 
-struct ProjectResponse: Decodable {
-    let id: String
-    let name: String
-    let slug: String
-    let mainFormat: String?
-    let projectImageUrl: String?
-    let account: AccountResponse
-    let space: SpaceResponse
-    let createdAt: Date
-    let updatedAt: Date?
-    let sharesTranslationMemory: Bool
+public struct ProjectResponse: Decodable {
+    public let id: String
+    public let name: String
+    public let slug: String
+    public let mainFormat: String?
+    public let projectImageUrl: String?
+    public let account: AccountResponse
+    public let space: SpaceResponse
+    public let createdAt: Date
+    public let updatedAt: Date?
+    public let sharesTranslationMemory: Bool
 }

@@ -8,13 +8,13 @@
 import Foundation
 
 public struct BranchResponse: Decodable {
-    let baseProjectId: String?
-    let branchProjectId: String?
-    let name: String
-    let createdAt: Date
-    let updatedAt: Date?
-    let mergedAt: Date?
-    let mergedBy: PhraseUser?
-    let createdBy: PhraseUser
-    let state: String
+    public let baseProjectId: String?
+    public let branchProjectId: String?
+    public let name: String
+    public let createdAt: Date
+    public let updatedAt: Date?
+    public let mergedAt: Date?
+    public let mergedBy: PhraseUser?
+    public let createdBy: PhraseUser
+    public let state: String
 }

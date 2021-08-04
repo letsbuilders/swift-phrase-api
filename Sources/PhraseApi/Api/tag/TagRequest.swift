@@ -5,6 +5,6 @@
 import Foundation
 
 public struct TagRequest: Encodable {
-    let branch: String?
-    let name: String
+    public let branch: String?
+    public let name: String
 }

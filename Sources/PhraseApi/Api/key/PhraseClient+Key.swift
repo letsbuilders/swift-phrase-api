@@ -6,7 +6,7 @@ import Foundation
 import NIO
 
 // API - keys
-extension PhraseClient.ProjectScope {
+public extension PhraseClient.ProjectScope {
     /// List all keys
     /// 
     /// - Parameter branch: Specify the branch to use (optional)

@@ -6,22 +6,22 @@ import Foundation
 
 public struct TranslationResponse: Decodable {
     public struct Key: Codable {
-        let id: String
-        let name: String
-        let plural: Bool?
+        public let id: String
+        public let name: String
+        public let plural: Bool?
     }
 
-    let id: String
-    let content: String
-    let unverified: Bool
-    let excluded: Bool
-    let pluralSuffix: String?
-    let key: Key
-    let locale: Locale
-    let placeholders: [String]
-    let state: String
-    let createdAt: Date
-    let updatedAt: Date?
-    let user: PhraseUser?
-    let wordCount: Int?
+    public let id: String
+    public let content: String
+    public let unverified: Bool
+    public let excluded: Bool
+    public let pluralSuffix: String?
+    public let key: Key
+    public let locale: Locale
+    public let placeholders: [String]
+    public let state: String
+    public let createdAt: Date
+    public let updatedAt: Date?
+    public let user: PhraseUser?
+    public let wordCount: Int?
 }

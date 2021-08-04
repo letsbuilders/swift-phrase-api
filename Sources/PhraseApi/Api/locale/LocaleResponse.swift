@@ -8,14 +8,14 @@
 import Foundation
 
 public struct LocaleResponse: Decodable {
-    let id: String
-    let name: String
-    let code: String
-    let `default`: Bool
-    let main: Bool
-    let rtl: Bool
-    let pluralForms: [String]?
-    let sourceLocale: Locale?
-    let createdAt: Date
-    let updatedAt: Date?
+    public let id: String
+    public let name: String
+    public let code: String
+    public let `default`: Bool
+    public let main: Bool
+    public let rtl: Bool
+    public let pluralForms: [String]?
+    public let sourceLocale: Locale?
+    public let createdAt: Date
+    public let updatedAt: Date?
 }

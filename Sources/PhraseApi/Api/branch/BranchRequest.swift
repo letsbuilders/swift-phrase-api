@@ -8,5 +8,5 @@
 import Foundation
 
 struct BranchRequest: Encodable {
-    let name: String
+    public let name: String
 }

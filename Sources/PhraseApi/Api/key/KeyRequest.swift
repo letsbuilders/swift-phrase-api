@@ -5,19 +5,49 @@
 import Foundation
 
 public struct KeyRequest: Encodable {
-    let branch: String?
-    let name: String
-    let description: String?
-    let plural: Bool?
-    let namePlural: String?
-    let dataType: PhraseDataType
-    let tags: String?
-    let maxCharactersAllowed: Int?
-    let unformatted: Bool?
-    let xmlSpacePreserve: Bool?
-    let originalFile: String?
-    let localizedFormatString: String?
-    let localizedFormatKey: String?
+    public let branch: String?
+    public let name: String
+    public let description: String?
+    public let plural: Bool?
+    public let namePlural: String?
+    public let dataType: PhraseDataType
+    public let tags: String?
+    public let maxCharactersAllowed: Int?
+    public let unformatted: Bool?
+    public let xmlSpacePreserve: Bool?
+    public let originalFile: String?
+    public let localizedFormatString: String?
+    public let localizedFormatKey: String?
+
+    public init(
+            branch: String? = nil,
+            name: String,
+            description: String? = nil,
+            plural: Bool? = nil,
+            namePlural: String? = nil,
+            dataType: PhraseDataType,
+            tags: String? = nil,
+            maxCharactersAllowed: Int? = nil,
+            unformatted: Bool? = nil,
+            xmlSpacePreserve: Bool? = nil,
+            originalFile: String? = nil,
+            localizedFormatString: String? = nil,
+            localizedFormatKey: String? = nil
+    ) {
+        self.branch = branch
+        self.name = name
+        self.description = description
+        self.plural = plural
+        self.namePlural = namePlural
+        self.dataType = dataType
+        self.tags = tags
+        self.maxCharactersAllowed = maxCharactersAllowed
+        self.unformatted = unformatted
+        self.xmlSpacePreserve = xmlSpacePreserve
+        self.originalFile = originalFile
+        self.localizedFormatString = localizedFormatString
+        self.localizedFormatKey = localizedFormatKey
+    }
 }
 
 public extension KeyRequest {

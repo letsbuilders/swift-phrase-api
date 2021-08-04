@@ -5,9 +5,9 @@
 import Foundation
 
 public struct SpaceResponse: Decodable {
-	 let id: String
-	 let name: String?
-	 let createdAt: Date?
-	 let updatedAt: Date?
-	 let projectsCount: Int
+	 public let id: String
+	 public let name: String?
+	 public let createdAt: Date?
+	 public let updatedAt: Date?
+	 public let projectsCount: Int
 }
