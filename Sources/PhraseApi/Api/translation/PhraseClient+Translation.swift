@@ -6,7 +6,7 @@ import Foundation
 import NIO
 
 // Api - translations
-extension PhraseClient.ProjectScope {
+public extension PhraseClient.ProjectScope {
     private func translations(pathComponents: [String], branch: String?) -> EventLoopFuture<[TranslationResponse]> {
         var queryItems: [URLQueryItem] = [
             URLQueryItem(name: "sort", value: "created_at"),
