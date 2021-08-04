@@ -9,10 +9,10 @@ import NIO
 public extension PhraseClient {
     struct ProjectScope {
         /// Project data loaded from API
-        let projectData: ProjectResponse
+        public let projectData: ProjectResponse
 
         /// Id of the project
-        var projectId: String {
+        public var projectId: String {
             projectData.id
         }
 
