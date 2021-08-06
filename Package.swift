@@ -15,7 +15,7 @@ let package = Package(
             name: "PhraseApi",
             targets: ["PhraseApi"]),
         .library(
-            name: "PhraseVapor",
+            name: "PhraseApiVapor",
             targets: ["PhraseApiVapor"]
         )
     ],
