@@ -17,13 +17,13 @@ Below you'll find all you need to know to get started.
 
 #### Adding the dependency
 
-`PhraseApi` is designed for Swift >= 5.4. To use teh wrapper, you need to declare your dependency in your `Package.swift`:
+`PhraseApi` is designed for Swift >= 5.4. To use the wrapper, you need to declare your dependency in your `Package.swift`:
 
 ```swift
 .package(url: "https://github.com/letsbuilders/swift-phrase-api.git", from: "0.0.1"),
 ```
 
-and to your application/library target, add `"Logging"` to your `dependencies`, e.g. like this:
+and to your application/library target, add `"PhraseApi"` to your `dependencies`, e.g. like this:
 
 ```swift
 // Target for Swift 5.2
@@ -68,3 +68,44 @@ Hopefully with swift 5.5 it will work with async/await
 For logging this library is using [SwiftLog](https://github.com/apple/swift-log).
 Please follow their documentation for setting up the logging.
 
+### Using it with Vapor
+Instead of importing adding `PhraseApi` to your dependencies you can add `PhraseApiVapor`
+
+```swift
+// Target for Swift 5.2
+.target(name: "BestExampleApp", dependencies: [
+    .product(name: "PhraseApiVapor", package: "swift-phrase-api")
+],
+```
+
+#### Configure
+In your app configuration you need to pass token and optionally project ID
+
+```swift
+try app.phrase.configure(token: myToken, defaultProjectId: myPhraseProjectId).wait()
+```
+or 
+```swift
+app.phrase.configure(token: token)
+```
+
+**NOTE:** When you are passing `defaultProjectId`, `app.phrase.project` will be set asynchronously, 
+so it is recommended to wait for result, so `app.phrase.project` is set. 
+
+#### Usage
+
+You can access shared PhraseAPI client on the app instance for example by using:
+
+```swift
+if let phraseClient = app.phrase.client {
+    // My api calls go here
+}
+```
+
+or you can access default project scope directly 
+
+```swift
+if let phraseProject = app.phrase.project {
+    // My API calls go here
+}
+```

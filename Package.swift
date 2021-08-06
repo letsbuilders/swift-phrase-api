@@ -14,10 +14,15 @@ let package = Package(
         .library(
             name: "PhraseApi",
             targets: ["PhraseApi"]),
+        .library(
+            name: "PhraseVapor",
+            targets: ["PhraseApiVapor"]
+        )
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0"),
         .package(url: "https://github.com/swift-server/async-http-client.git", from: "1.0.0"),
+        .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0"),
     ],
     targets: [
         .target(
@@ -26,8 +31,14 @@ let package = Package(
                 .product(name: "Logging", package: "swift-log"),
                 .product(name: "AsyncHTTPClient", package: "async-http-client"),
             ]),
+        .target(
+            name: "PhraseApiVapor",
+            dependencies: [
+                .target(name: "PhraseApi"),
+                .product(name: "Vapor", package: "vapor")
+            ]),
         .testTarget(
             name: "PhraseApiTests",
-            dependencies: ["PhraseApi"]),
+            dependencies: ["PhraseApi", "PhraseApiVapor"]),
     ]
 )

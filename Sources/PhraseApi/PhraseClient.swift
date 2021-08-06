@@ -34,7 +34,7 @@ public final class PhraseClient {
     ///
     /// - SeeMore:
     /// [Swift Logging](https://github.com/apple/swift-log)
-    var logger: Logger
+    public private(set) var logger: Logger
 
     /// User agent used for all request.
     ///
@@ -73,6 +73,10 @@ public final class PhraseClient {
         if deinitHttpClient {
             try? self.httpClient.syncShutdown()
         }
+    }
+
+    public func logging(to newLogger: Logger) {
+        logger = newLogger
     }
 
     internal func setHeaders(_ request: HTTPClient.Request) -> HTTPClient.Request {
