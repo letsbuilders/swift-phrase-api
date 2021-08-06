@@ -2,7 +2,7 @@
 // Created by kacper on 03/08/2021.
 //
 
-@_exported import PhraseApi
+import PhraseApi
 import Vapor
 import NIO
 
