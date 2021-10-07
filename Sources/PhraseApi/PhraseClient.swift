@@ -5,7 +5,8 @@
 import Foundation
 import AsyncHTTPClient
 import Logging
-import NIO
+import NIOCore
+import NIOFoundationCompat
 import NIOHTTP1
 
 /// Errors thrown by Phrase client
@@ -101,12 +102,12 @@ internal extension PhraseClient {
     private func decodeResponse<ResponseData: Decodable>(response: HTTPClient.Response) throws -> ResponseData {
         guard response.status == .ok || response.status == .created else {
             logger.error("Unexpected response received from API \(response.status.code)")
-            if var body = response.body {
-                logger.debug("\(body.readString(length: body.capacity, encoding: String.Encoding.utf8) ?? "Can't parse the body to sting")")
+            if let body = response.body {
+                logger.debug("\(body.getString(at: 0, length: body.capacity) ?? "Can't parse the body to sting")")
             }
             throw PhraseError.requestFailed(status: response.status)
         }
-        guard var body = response.body else { throw PhraseError.emptyResponse }
+        guard let body = response.body else { throw PhraseError.emptyResponse }
 
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -115,7 +116,7 @@ internal extension PhraseClient {
             return try decoder.decode(ResponseData.self, from: body)
         } catch {
             logger.error("Failed parsing JSON to \(ResponseData.self) -> \(error)")
-            logger.debug("\(body.readString(length: body.capacity, encoding: String.Encoding.utf8) ?? "Can't parse the body to sting")")
+            logger.debug("\(body.getString(at: 0, length: body.capacity) ?? "Can't parse the body to sting")")
             throw error
         }
     }
